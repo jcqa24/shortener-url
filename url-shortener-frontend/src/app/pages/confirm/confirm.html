@@ -1,0 +1,20 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+  <div class="w-full max-w-sm bg-white p-8 rounded-xl shadow-md text-center space-y-4">
+    @switch (status()) {
+      @case ('loading') {
+        <div class="animate-spin h-8 w-8 border-4 border-brand border-t-transparent rounded-full mx-auto"></div>
+        <p class="text-sm text-gray-600">{{ message() }}</p>
+      }
+      @case ('success') {
+        <h1 class="text-xl font-semibold text-green-700">¡Listo!</h1>
+        <p class="text-sm text-gray-600">{{ message() }}</p>
+        <a routerLink="/login" class="inline-block text-brand font-medium text-sm">Ir a iniciar sesión</a>
+      }
+      @case ('error') {
+        <h1 class="text-xl font-semibold text-red-700">No se pudo confirmar</h1>
+        <p class="text-sm text-gray-600">{{ message() }}</p>
+        <a routerLink="/register" class="inline-block text-brand font-medium text-sm">Volver a registrarte</a>
+      }
+    }
+  </div>
+</div>

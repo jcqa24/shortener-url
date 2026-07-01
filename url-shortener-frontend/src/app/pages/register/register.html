@@ -1,0 +1,63 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+  @if (registered()) {
+    <div class="w-full max-w-sm bg-white p-8 rounded-xl shadow-md text-center space-y-3">
+      <h1 class="text-xl font-semibold text-gray-900">Revisa tu correo</h1>
+      <p class="text-sm text-gray-600">Te enviamos un enlace de confirmación. Ábrelo para activar tu cuenta.</p>
+      <a routerLink="/login" class="text-brand font-medium text-sm">Ir a iniciar sesión</a>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="submit()" class="w-full max-w-sm bg-white p-8 rounded-xl shadow-md space-y-5">
+      <h1 class="text-2xl font-semibold text-gray-900">Crear cuenta</h1>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Correo</label>
+        <input
+          type="email"
+          formControlName="email"
+          class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand"
+          [class.border-red-500]="form.get('email')?.invalid && form.get('email')?.touched"
+        />
+        @if (form.get('email')?.touched && form.get('email')?.hasError('required')) {
+          <p class="text-red-600 text-xs mt-1">El correo es obligatorio</p>
+        }
+        @if (form.get('email')?.touched && form.get('email')?.hasError('email')) {
+          <p class="text-red-600 text-xs mt-1">Debe ser un correo válido</p>
+        }
+        @if (form.get('email')?.hasError('server')) {
+          <p class="text-red-600 text-xs mt-1">{{ form.get('email')?.getError('server') }}</p>
+        }
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand"
+          [class.border-red-500]="form.get('password')?.invalid && form.get('password')?.touched"
+        />
+        @if (form.get('password')?.touched && form.get('password')?.hasError('required')) {
+          <p class="text-red-600 text-xs mt-1">La contraseña es obligatoria</p>
+        }
+        @if (form.get('password')?.touched && form.get('password')?.hasError('minlength')) {
+          <p class="text-red-600 text-xs mt-1">Debe tener al menos 8 caracteres</p>
+        }
+        @if (form.get('password')?.hasError('server')) {
+          <p class="text-red-600 text-xs mt-1">{{ form.get('password')?.getError('server') }}</p>
+        }
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="submitting()"
+        class="w-full bg-brand hover:bg-brand-dark text-white rounded-lg py-2.5 text-sm font-medium disabled:opacity-60"
+      >
+        {{ submitting() ? 'Creando cuenta...' : 'Crear cuenta' }}
+      </button>
+
+      <p class="text-sm text-gray-600 text-center">
+        ¿Ya tienes cuenta? <a routerLink="/login" class="text-brand font-medium">Inicia sesión</a>
+      </p>
+    </form>
+  }
+</div>
